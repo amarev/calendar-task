@@ -19,6 +19,11 @@
     "@angular/platform-browser": "~8.2.14",
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
+    "@clr/angular": "^2.3.4",
+    "@clr/icons": "^2.3.4",
+    "@clr/ui": "^2.3.4",
+    "@webcomponents/custom-elements": "^1.0.0",
+    "moment": "^2.24.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

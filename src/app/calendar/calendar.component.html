@@ -1,0 +1,92 @@
+<div class="clr-row">
+  <div class="clr-col-lg-5 clr-col-md-8 clr-col-12">
+    <div class="card" #card>
+      <div class="card-block">
+        <div class="card-title">
+          <h4 style="text-align: center">{{tabTitle}}</h4>
+        </div>
+        <div class="card-text" >
+
+
+          <ng-container>
+            <form clrForm [formGroup]="dateForm" novalidate>
+              <clr-date-container>
+                <input id="dateControl" type="date" clrDate formControlName="date" #dateInput />
+              </clr-date-container>
+            </form>
+          </ng-container>
+
+          <ng-container *ngIf="!isCalendarOpen && isEventFormOpen">
+            <ul class="clr-timeline clr-timeline-vertical">
+              <li *ngFor="let event of eventsData | async | filterEventsByDate : 'date' : dateInput.value" class="clr-timeline-step">
+                <div class="clr-timeline-step-header">{{event.startTime}}-{{event.endTime}}</div>
+                <clr-icon *ngIf="!event.completed" shape="circle" aria-label="Not started"></clr-icon>
+                <clr-icon *ngIf="event.completed" shape="success-standard" aria-label="Completed"></clr-icon>
+                <div class="clr-timeline-step-body">
+                  <span class="clr-timeline-step-title">{{event.title}}</span>
+                  <span class="clr-timeline-step-description">{{event.subject}}
+                  </span>
+                  <div class="btn-group btn-outline-primary">
+                    <button type="button" class="btn btn-sm" aria-label="done" (click)="onMarkCompleted(event)">
+                      Done
+                    </button>
+                    <button type="button" class="btn btn-sm" aria-label="edit" (click)="onEditEvent(event)">
+                      Edit
+                    </button>
+                    <button type="button" class="btn btn-sm" aria-label="cancel" (click)="onCancelEvent(event)">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <button class="btn btn-sm btn-outline btn-success btn-block" (click)="onCreateNewEventClick()">
+              <clr-icon shape="plus-circle"></clr-icon>Create Event
+            </button>
+          </ng-container>
+
+          <ng-container *ngIf="!isCalendarOpen && !isEventFormOpen">
+            <form clrForm [formGroup]="newEventForm" novalidate>
+
+              <div class="clr-form-control">
+                  <clr-input-container>
+                      <label>Start</label>
+                      <input #startInput min="0" max="22" type="number" placeholder="Start Time" clrInput formControlName="startTime" />
+                  </clr-input-container>
+
+                  <clr-input-container>
+                      <label>End</label>
+                      <input [min]="+startInput.value + 1" max="23" type="number" placeholder="End Time" clrInput formControlName="endTime" />
+                  </clr-input-container>
+              </div>
+              <div class="clr-form-control">
+                  <clr-input-container>
+                      <label>Title</label>
+                      <input type="text" placeholder="Title" clrInput formControlName="title" />
+                  </clr-input-container>
+              </div>
+              <div class="clr-form-control">
+                  <clr-textarea-container>
+                      <label>Subject</label>
+                      <textarea type="text" placeholder="Subject" clrTextarea formControlName="subject" ></textarea>
+                  </clr-textarea-container>
+              </div>
+              <div style="text-align: center; padding-top: 20px;">
+                <div class="btn-group btn-outline-primary" >
+                  <button [disabled]="newEventForm.invalid" type="button" class="btn btn-icon" aria-label="done" (click)="onEventSave()">
+                    <clr-icon shape="check" size="12"></clr-icon>
+                  </button>
+                  <button  type="button" class="btn btn-icon" aria-label="edit" (click)="onCancelEventSave()">
+                    <clr-icon shape="times" size="12"></clr-icon>
+                  </button>
+                </div>
+              </div>
+
+            </form>
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
